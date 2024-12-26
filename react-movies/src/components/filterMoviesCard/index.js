@@ -10,7 +10,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import img from '../../images/kitten bubble.jpg';
-import { getGenres, getCertifications } from "../../api/tmdb-api";
+import { getGenres, getMovieCertifications } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from '../spinner';
 import FormGroup from '@mui/material/FormGroup';
@@ -27,7 +27,7 @@ const formControl =
 export default function FilterMoviesCard(props) {
 
   const { data: genreData, error: genreError, isLoading:genreIsLoading, isError:genreIsError } = useQuery("genres", getGenres);
-  const { data: certificationData, error: certificationError, isLoading:certificationIsLoading, isError:certificationIsError } = useQuery("certifications", getCertifications);
+  const { data: certificationData, error: certificationError, isLoading:certificationIsLoading, isError:certificationIsError } = useQuery("certifications", getMovieCertifications);
 
   if (genreIsLoading || certificationIsLoading) {
     return <Spinner />;

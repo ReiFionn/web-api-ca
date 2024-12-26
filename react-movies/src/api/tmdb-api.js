@@ -341,6 +341,20 @@ export const getTopRatedMovies = async (args) => {
   return response.json();
 }
 
+export const getMovie = async (args) => {
+  const [, idPart] = args.queryKey;
+  const { id } = idPart;
+
+  const response = await fetch(
+    `http://localhost:8080/api/movies/${id}`, {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
+    }
+  }
+  )
+  return response.json();
+}
+
 export const getGenres = async (args) => {
   const response = await fetch(
     'http://localhost:8080/api/genres', {
@@ -414,6 +428,20 @@ export const getActorImages = async (args) => {
 
   const response = await fetch(
     `http://localhost:8080/api/actors/${id}/images` ,{
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
+    }
+    }
+  )
+  return response.json();
+}
+
+export const getActorRoles = async (args) => {
+  const [, idPart] = args.queryKey;
+  const { id } = idPart;
+
+  const response = await fetch(
+    `http://localhost:8080/api/actors/${id}/roles` ,{
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
