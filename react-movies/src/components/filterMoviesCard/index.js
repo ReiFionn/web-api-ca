@@ -10,7 +10,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import img from '../../images/kitten bubble.jpg';
-import { getGenres, getMovieCertifications } from "../../api/tmdb-api";
+import { getGenres } from "../../api/tmdb-api"; //, getMovieCertifications
 import { useQuery } from "react-query";
 import Spinner from '../spinner';
 import FormGroup from '@mui/material/FormGroup';
@@ -27,14 +27,14 @@ const formControl =
 export default function FilterMoviesCard(props) {
 
   const { data: genreData, error: genreError, isLoading:genreIsLoading, isError:genreIsError } = useQuery("genres", getGenres);
-  const { data: certificationData, error: certificationError, isLoading:certificationIsLoading, isError:certificationIsError } = useQuery("certifications", getMovieCertifications);
+  //const { data: certificationData, error: certificationError, isLoading:certificationIsLoading, isError:certificationIsError } = useQuery("certifications", getMovieCertifications);
 
-  if (genreIsLoading || certificationIsLoading) {
+  if (genreIsLoading) { //|| certificationIsLoading
     return <Spinner />;
   }
 
-  if (genreIsError || certificationIsError) {
-    return <h1>{(genreError || certificationError).message}</h1>;
+  if (genreIsError) { //|| certificationIsError
+    return <h1>{(genreError).message}</h1>; //|| certificationError
   }
 
   const genres = genreData.genres;
@@ -42,7 +42,7 @@ export default function FilterMoviesCard(props) {
     genres.unshift({ id: "0", name: "All" });
   }
 
-  const certifications = certificationData.certifications.IE; //Only Irish certifications
+  //const certifications = certificationData.certifications.IE; //Only Irish certifications
 
   const handleTextChange = (e) => {
     props.onUserInput("name", e.target.value);
@@ -52,9 +52,9 @@ export default function FilterMoviesCard(props) {
     props.onUserInput("genre", e.target.value);
   };
 
-  const handleCertificationChange = (e) => {
-    props.onUserInput("certification", e.target.value);
-  };
+  // const handleCertificationChange = (e) => {
+  //   props.onUserInput("certification", e.target.value);
+  // };
 
   const handleAdultChange = (e) => {
     props.onUserInput("adult", e.target.checked);
@@ -103,7 +103,7 @@ export default function FilterMoviesCard(props) {
             })}
           </Select>
         </FormControl>
-        <FormControl sx={{...formControl}}>
+        {/* <FormControl sx={{...formControl}}>
           <InputLabel id="certification-label">Certification</InputLabel>
           <Select
             labelId="certification-label"
@@ -120,7 +120,7 @@ export default function FilterMoviesCard(props) {
               );
             })}
           </Select>
-        </FormControl>
+        </FormControl> */}
         <FormControl>
           <FormGroup>
             <FormControlLabel control={<Checkbox checked={props.adultFilter} onChange={handleAdultChange} />} label="Adult" />

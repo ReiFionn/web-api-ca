@@ -303,11 +303,11 @@ export const getMovies = async () => {
 };
 
 export const getUpcomingMovies = async (args) => {
-  const [, idPart] = args.queryKey;
-  const { page } = idPart;
+  // const [, idPart] = args.queryKey;
+  // const { page } = idPart;
 
   const response = await fetch(
-    `http://localhost:8080/api/upcoming?page=${page}`, {
+    `http://localhost:8080/api/upcoming`, {
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -317,11 +317,11 @@ export const getUpcomingMovies = async (args) => {
 }
 
 export const getNowPlayingMovies = async (args) => {
-  const [, idPart] = args.queryKey;
-  const { page } = idPart;
+  // const [, idPart] = args.queryKey;
+  // const { page } = idPart;
 
   const response = await fetch(
-    `http://localhost:8080/api/nowplaying?page=${page}`, {
+    `http://localhost:8080/api/nowplaying`, {
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -331,11 +331,11 @@ export const getNowPlayingMovies = async (args) => {
 }
 
 export const getTopRatedMovies = async (args) => {
-  const [, idPart] = args.queryKey;
-  const { page } = idPart;
+  // const [, idPart] = args.queryKey;
+  // const { page } = idPart;
 
   const response = await fetch(
-    `http://localhost:8080/api/toprated?page=${page}`, {
+    `http://localhost:8080/api/toprated`, {
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -398,11 +398,11 @@ export const getMovieReviews = async (args) => {
 }
 
 export const getActors = async (args) => {
-  const [, idPart] = args.queryKey;
-  const { page } = idPart;
+  // const [, idPart] = args.queryKey;
+  // const { page } = idPart;
 
   const response = await fetch(
-    `http://localhost:8080/api/actors?page=${page}` ,{
+    `http://localhost:8080/api/actors` ,{
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -480,6 +480,17 @@ export const getMovieCertifications = async (args) => {
   )
   return response.json();
 }
+
+export const getCertifications = async () => {
+  const response = await fetch(
+    `http://localhost:8080/api/certifications` ,{
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
+    }
+    }
+  )
+  return response.json();
+};
 
 export const login = async (username, password) => {
   const response = await fetch('http://localhost:8080/api/users', {
