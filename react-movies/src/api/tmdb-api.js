@@ -285,17 +285,20 @@
 //   });
 // };
 
-export const getMovies = async (args) => {
-  const [, idPart] = args.queryKey;
-  const { page } = idPart;
+export const getMovies = async () => {
+  // const [, idPart] = args.queryKey;
+  // const { page } = idPart;
 
   const response = await fetch(
-    `http://localhost:8080/api/movies?page=${page}`, {
+    `http://localhost:8080/api/movies`, {
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
   }
   )
+
+  console.log('Raw Response:', response);
+  
   return response.json();
 };
 
