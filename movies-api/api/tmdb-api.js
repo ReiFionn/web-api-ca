@@ -108,6 +108,7 @@ export const getMovies = async (page = 1) => {
       throw error;
     }
   };
+  
   export const getTopRatedMovies = async (page = 1) => {
     try {
       const response = await fetch(

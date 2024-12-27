@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -11,17 +11,19 @@ import { useNavigate } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { getAuth, signOut } from "firebase/auth";
+import { AuthContext } from "../../contexts/authContext";
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
 const SiteHeader = ({ history }) => {
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  
+
+  const context = useContext(AuthContext);
   const navigate = useNavigate();
 
   const menuOptions = [
@@ -34,25 +36,14 @@ const SiteHeader = ({ history }) => {
     { label: "Must Watch", path: "/movies/mustwatch" },
     { label: "Favorite Actors", path: "/actors/favorites" },
     { label: "Sign In", path: "/signin" },
-    { label: "Sign Out", action: "signOut" }
+    { label: "Sign Out", path: "/", action: () => context.signout(), showWhenAuth: true }
   ];
 
   const handleMenuSelect = (option) => {
-    if (option.action === "signOut") {
-      handleSignOut();
+    if (option.action) {
+      option.action();
     } else {
       navigate(option.path, { replace: true });
-    }
-  };
-
-  const handleSignOut = async () => {
-    try {
-      const auth = getAuth();
-      await signOut(auth); 
-      console.log("User signed out successfully.");
-      navigate("/signin", { replace: true });
-    } catch (error) {
-      console.error("Error signing out:", error.message);
     }
   };
 

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import HomePage from "./pages/homePage";
 import MoviePage from "./pages/movieDetailsPage";
 import FavoriteMoviesPage from "./pages/favoriteMoviesPage";
@@ -19,11 +18,13 @@ import ActorDetailPage from "./pages/actorDetailsPage";
 import ActorsContextProvider from "./contexts/actorsContext";
 import FavoriteActorsPage from "./pages/favoriteActorsPage";
 import TopRatedMoviesPage from "./pages/topRatedMoviesPage";
-import SignIn from "./components/signIn";
-import SignUp from "./components/signUp";
-import Spinner from './components/spinner';
+import SignInPage from "./pages/signInPage";
+import SignUpPage from "./pages/signUpPage";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import AuthContextProvider from "./contexts/authContext";
+import ProtectedRoutes from "./protectedRoutes";
+
 
 const myTheme = createTheme({
   palette: {
@@ -63,33 +64,6 @@ const queryClient = new QueryClient({
   },
 });
 
-const ProtectedRoute = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log("Auth state changed: ", user);
-      setCurrentUser(user);
-      setLoading(false);
-    });
-  
-    return unsubscribe;
-  }, []);
-  
-
-  if (loading) {
-    return <Spinner />
-  }
-
-  if (!currentUser) {
-    return <Navigate to="/signin" replace />;
-  }
-
-  return children;
-};
-
 const App = () => {
 
   return (
@@ -97,28 +71,32 @@ const App = () => {
       <CssBaseline />
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
+          <AuthContextProvider>
           <SiteHeader />
-          <MoviesContextProvider>
-            <ActorsContextProvider>
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/signin" element={<SignIn />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/movies/favorites" element={<ProtectedRoute><FavoriteMoviesPage /></ProtectedRoute>}/>
-                <Route path="/movies/upcoming" element={<ProtectedRoute><UpcomingMoviesPage /></ProtectedRoute>}/>
-                <Route path="/movies/nowplaying" element={<ProtectedRoute><NowPlayingMoviesPage /></ProtectedRoute>}/>
-                <Route path="/movies/mustwatch" element={<ProtectedRoute><MustWatchMoviesPage /></ProtectedRoute>}/>
-                <Route path="/movies/toprated" element={<ProtectedRoute><TopRatedMoviesPage /></ProtectedRoute>}/>
-                <Route path="/reviews/:id" element={<ProtectedRoute><MovieReviewPage /></ProtectedRoute>}/>
-                <Route path="/movies/:id" element={<ProtectedRoute><MoviePage /></ProtectedRoute>}/>
-                <Route path="/actors" element={<ProtectedRoute><ActorsPage /></ProtectedRoute>}/>
-                <Route path="/actors/favorites" element={<ProtectedRoute><FavoriteActorsPage /></ProtectedRoute>}/>
-                <Route path="/actors/:id" element={<ProtectedRoute><ActorDetailPage /></ProtectedRoute>}/>
-                <Route path="/reviews/form" element={<ProtectedRoute><AddMovieReviewPage /></ProtectedRoute>}/>
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </ActorsContextProvider>
-          </MoviesContextProvider>
+            <MoviesContextProvider>
+              <ActorsContextProvider>
+              <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/signin" element={<SignInPage />} />
+                  <Route path="/signup" element={<SignUpPage />} />
+                  <Route element={<ProtectedRoutes />}>
+                    <Route path="/movies/favorites" element={<FavoriteMoviesPage />}/>
+                    <Route path="/movies/upcoming" element={<UpcomingMoviesPage />}/>
+                    <Route path="/movies/nowplaying" element={<NowPlayingMoviesPage />}/>
+                    <Route path="/movies/mustwatch" element={<MustWatchMoviesPage />}/>
+                    <Route path="/movies/toprated" element={<TopRatedMoviesPage />}/>
+                    <Route path="/reviews/:id" element={<MovieReviewPage />}/>
+                    <Route path="/movies/:id" element={<MoviePage />}/>
+                    <Route path="/actors" element={<ActorsPage />}/>
+                    <Route path="/actors/favorites" element={<FavoriteActorsPage />}/>
+                    <Route path="/actors/:id" element={<ActorDetailPage />}/>
+                    <Route path="/reviews/form" element={<AddMovieReviewPage />}/>
+                  </Route>
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </ActorsContextProvider>
+            </MoviesContextProvider>
+          </AuthContextProvider>
         </BrowserRouter>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
