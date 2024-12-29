@@ -1,7 +1,7 @@
-import movieModel from './movieModel';
+import nowPlayingModel from './nowPlayingModel';
 import asyncHandler from 'express-async-handler';
 import express from 'express';
-import {getMovieImages, getMovieReviews, getMovieCast, getCertifications} from '../tmdb-api';  
+import {getNowPlayingMovies, getMovieImages, getMovieReviews, getMovieCast, getCertifications} from '../../tmdb-api';  
 
 const router = express.Router();
 
@@ -11,8 +11,8 @@ router.get('/', asyncHandler(async (req, res) => {
 
     // Parallel execution of counting movies and getting movies using movieModel
     const [total_results, results] = await Promise.all([
-        movieModel.estimatedDocumentCount(),
-        movieModel.find().limit(limit).skip((page - 1) * limit)
+        nowPlayingModel.estimatedDocumentCount(),
+        nowPlayingModel.find().limit(limit).skip((page - 1) * limit)
     ]);
     const total_pages = Math.ceil(total_results / limit); //Calculate total number of pages (= total No Docs/Number of docs per page) 
 
@@ -29,7 +29,7 @@ router.get('/', asyncHandler(async (req, res) => {
 // Get movie details
 router.get('/:id', asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id);
-    const movie = await movieModel.findByMovieDBId(id);
+    const movie = await nowPlayingModel.findByNowPlayingDBId(id);
     if (movie) {
         res.status(200).json(movie);
     } else {
@@ -39,25 +39,29 @@ router.get('/:id', asyncHandler(async (req, res) => {
 
 // Get movie images
 router.get('/:id/images', asyncHandler(async (req, res) => {
-    const images = await getMovieImages();
+    const id = parseInt(req.params.id);
+    const images = await getMovieImages(id);
     res.status(200).json(images);
 }));
 
 // Get movie reviews
 router.get('/:id/reviews', asyncHandler(async (req, res) => {
-    const reviews = await getMovieReviews();
+    const id = parseInt(req.params.id);
+    const reviews = await getMovieReviews(id);
     res.status(200).json(reviews);
 }));
 
 // Get movie cast
 router.get('/:id/cast', asyncHandler(async (req, res) => {
-    const cast = await getMovieCast();
+    const id = parseInt(req.params.id);
+    const cast = await getMovieCast(id);
     res.status(200).json(cast);
 }));
 
 // Get movie certifications
 router.get('/:id/certifications', asyncHandler(async (req, res) => {
-    const certifications = await getCertifications();
+    const id = parseInt(req.params.id);
+    const certifications = await getCertifications(id);
     res.status(200).json(certifications);
 }));
 

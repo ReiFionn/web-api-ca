@@ -206,23 +206,6 @@
 //   });
 // };
 
-// export const getActorImages = ({ queryKey }) => {
-//   const [, idPart] = queryKey;
-//   const { id } = idPart;
-//   return fetch(
-//     `https://api.themoviedb.org/3/person/${id}/images?api_key=${process.env.REACT_APP_TMDB_KEY}`
-//   ).then( (response) => {
-//     if (!response.ok) {
-//       throw new Error(response.json().message);
-//     }
-//     return response.json();
-
-//   })
-//   .catch((error) => {
-//     throw error
-//   });
-// };
-
 // //https://blog.risingstack.com/node-js-async-best-practices-avoiding-callback-hell-node-js-at-scale/
 // export const getActorRoles = async (id) => {
 //   try {
@@ -285,12 +268,12 @@
 //   });
 // };
 
-export const getMovies = async () => {
-  // const [, idPart] = args.queryKey;
-  // const { page } = idPart;
+export const getMovies = async (args) => {
+  const [, idPart] = args.queryKey;
+  const { page } = idPart;
 
   const response = await fetch(
-    `http://localhost:8080/api/movies`, {
+    `http://localhost:8080/api/movies?page=${page}`, {
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -303,8 +286,8 @@ export const getMovies = async () => {
 };
 
 export const getUpcomingMovies = async (args) => {
-  // const [, idPart] = args.queryKey;
-  // const { page } = idPart;
+  const [, idPart] = args.queryKey;
+  const { page } = idPart;
 
   const response = await fetch(
     `http://localhost:8080/api/upcoming`, {
@@ -317,17 +300,20 @@ export const getUpcomingMovies = async (args) => {
 }
 
 export const getNowPlayingMovies = async (args) => {
-  // const [, idPart] = args.queryKey;
-  // const { page } = idPart;
+  const [, idPart] = args.queryKey;
+  const { page } = idPart;
 
   const response = await fetch(
-    `http://localhost:8080/api/nowplaying`, {
+    `http://localhost:8080/api/nowplaying?page=${page}`, {
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
   }
   )
-  return response.json();
+
+  console.log('Raw Response:', response);
+
+  return await response.json();
 }
 
 export const getTopRatedMovies = async (args) => {
@@ -366,7 +352,8 @@ export const getGenres = async (args) => {
     }
   }
   )
-  return response.json();
+  console.log('Response:', response);
+  return await response.json();
 }
 
 export const getMovieImages = async (args) => {
@@ -425,19 +412,36 @@ export const getActor = async (args) => {
   return response.json();
 }
 
-export const getActorImages = async (args) => {
-  const [, idPart] = args.queryKey;
-  const { id } = idPart;
+// export const getActorImages = async (args) => {
+//   const [, idPart] = args.queryKey;
+//   const { id } = idPart;
 
-  const response = await fetch(
-    `http://localhost:8080/api/actors/${id}/images` ,{
-    headers: {
-      'Authorization': window.localStorage.getItem('token')
+//   const response = await fetch(
+//     `http://localhost:8080/api/actors/${id}/images` ,{
+//     headers: {
+//       'Authorization': window.localStorage.getItem('token')
+//     }
+//     }
+//   )
+//   return response.json();
+// }
+
+export const getActorImages = ({ queryKey }) => {
+  const [, idPart] = queryKey;
+  const { id } = idPart;
+  return fetch(
+    `https://api.themoviedb.org/3/person/${id}/images?api_key=${process.env.REACT_APP_TMDB_KEY}`
+  ).then( (response) => {
+    if (!response.ok) {
+      throw new Error(response.json().message);
     }
-    }
-  )
-  return response.json();
-}
+    return response.json();
+
+  })
+  .catch((error) => {
+    throw error
+  });
+};
 
 export const getActorRoles = async (args) => {
   const [, idPart] = args.queryKey;

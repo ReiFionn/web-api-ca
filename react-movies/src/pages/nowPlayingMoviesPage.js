@@ -9,7 +9,7 @@ import { Pagination } from "@mui/material";
 
 const NowPlayingMoviesPage = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const {  data, error, isLoading, isError }  = useQuery(['now_playing', currentPage], () => getNowPlayingMovies(currentPage))
+  const {  data, error, isLoading, isError, refetch }  =   useQuery(['now_playing', {page: currentPage}], () => getNowPlayingMovies({queryKey: ['now_playing', {page: currentPage}]}));
 
   if (isLoading) {
     return <Spinner />
@@ -19,12 +19,12 @@ const NowPlayingMoviesPage = (props) => {
     return <h1>{error.message}</h1>
   }  
 
+  const movies = data.results;
+  
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
+    refetch();
   };
-
-  const movies = data.results.slice(0,17); //limit the number of movies on a page
-  const totalPages = Math.ceil(data.total_results/17); //total number of pages needed to fit all the movies, if the limit of 17 actors per page is applied
 
   // Redundant, but necessary to avoid app crashing.
   const mustWatch = movies.filter(m => m.mustWatch)
@@ -43,14 +43,7 @@ const NowPlayingMoviesPage = (props) => {
         </>
       }}
     />
-    <Pagination
-        style={{ marginTop: '25px', display: 'flex', justifyContent: 'center' }}
-        count={totalPages}
-        color="secondary"
-        onChange={handlePageChange}
-        page={currentPage}
-        size="large"
-    />
+    <Pagination style={{ marginTop: '25px', display: 'flex', justifyContent: 'center' }} count={500} color="secondary" onChange={handlePageChange} page={currentPage} size="large"/>
     </>
 );
 };

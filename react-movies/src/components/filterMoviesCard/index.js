@@ -37,9 +37,8 @@ export default function FilterMoviesCard(props) {
     return <h1>{(genreError).message}</h1>; //|| certificationError
   }
 
-  const genres = genreData.genres;
-  if (genres[0].name !== "All"){
-    genres.unshift({ id: "0", name: "All" });
+  if (genreData[0].name !== "All"){
+    genreData.unshift({ id: "0", name: "All" });
   }
 
   //const certifications = certificationData.certifications.IE; //Only Irish certifications
@@ -94,7 +93,7 @@ export default function FilterMoviesCard(props) {
             value={props.genreFilter}
             onChange={handleGenreChange}
           >
-            {genres.map((genre) => {
+            {genreData.map((genre) => {
               return (
                 <MenuItem key={genre.id} value={genre.id}>
                   {genre.name}

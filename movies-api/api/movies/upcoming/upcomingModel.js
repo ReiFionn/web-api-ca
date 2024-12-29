@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const MovieSchema = new Schema({
+const UpcomingSchema = new Schema({
   adult: { type: Boolean },
   id: { type: Number, required: true, unique: true },
   poster_path: { type: String },
@@ -30,10 +30,10 @@ const MovieSchema = new Schema({
   tagline: { type: String }
 });
 
-MovieSchema.statics.findByMovieDBId = function (id) {
+UpcomingSchema.statics.findByMovieDBId = function (id) {
   return this.findOne({ id: id });
 };
 
-export default mongoose.model('Movies', MovieSchema);
+export default mongoose.model('Upcoming', UpcomingSchema);
 
 

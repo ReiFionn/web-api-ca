@@ -8,8 +8,8 @@ import AddToMustWatchIcon from '../components/cardIcons/addToMustWatch';
 import { Pagination } from "@mui/material";
 
 const HomePage = (props) => {
-  //const [currentPage, setCurrentPage] = useState(1);
-  const {  data, error, isLoading, isError }  = useQuery(['discover'], () => getMovies(1))
+  const [currentPage, setCurrentPage] = useState(1);
+  const {  data, error, isLoading, isError, refetch }  = useQuery(['discover', {page: currentPage}], () => getMovies({queryKey: ['discover', {page: currentPage}]}));
 
   if (isLoading) {
     return <Spinner />
@@ -17,14 +17,14 @@ const HomePage = (props) => {
 
   if (isError) {
     return <h1>{error.message}</h1>
-  }  
+  } 
 
-  // const handlePageChange = (event, page) => {
-  //   setCurrentPage(page);
-  // };
+  const movies = data.results 
 
-  const movies = data.results //.slice(0,17); limit the number of movies on a page
-  // const totalPages = Math.ceil(data.total_results/17); //total number of pages needed to fit all the movies, if the limit of 17 actors per page is applied
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+    refetch();
+  };
 
   // Redundant, but necessary to avoid app crashing.
   const favorites = movies.filter(m => m.favorite)
@@ -43,14 +43,7 @@ const HomePage = (props) => {
         </>
       }}
     />
-    <Pagination
-        style={{ marginTop: '25px', display: 'flex', justifyContent: 'center' }}
-        // count={totalPages}
-        color="secondary"
-        // onChange={handlePageChange}
-        // page={currentPage}
-        size="large"
-      />
+    <Pagination style={{ marginTop: '25px', display: 'flex', justifyContent: 'center' }} count={500} color="secondary" onChange={handlePageChange} page={currentPage} size="large"/>
     </>
 );
 };
