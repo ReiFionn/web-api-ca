@@ -25,21 +25,28 @@ async function main() {
     await mongoose.connect(process.env.MONGO_DB);
 
     // Drop collections
-    await User.collection.drop().catch(err => console.log('User collection not found'));
-    await Movie.collection.drop().catch(err => console.log('Movie collection not found'));
-    await Actor.collection.drop().catch(err => console.log('Actor collection not found'));
-    await Genre.collection.drop().catch(err => console.log('Genre collection not found'));
-    await NowPlaying.collection.drop().catch(err => console.log('NowPlaying collection not found'));
-    await TopRated.collection.drop().catch(err => console.log('TopRated collection not found'));
-    await Upcoming.collection.drop().catch(err => console.log('Upcoming collection not found'));
+    // await User.collection.drop().catch(err => console.log('User collection not found'));
+    mongoose.connection.collection('users').drop()
+    // await Movie.collection.drop().catch(err => console.log('Movie collection not found'));
+    mongoose.connection.collection('movies').drop()
+    // await Actor.collection.drop().catch(err => console.log('Actor collection not found'));
+    mongoose.connection.collection('actors').drop()
+    // await Genre.collection.drop().catch(err => console.log('Genre collection not found'));
+    mongoose.connection.collection('genres').drop()
+    // await NowPlaying.collection.drop().catch(err => console.log('NowPlaying collection not found'));
+    mongoose.connection.collection('nowplayings').drop()
+    // await TopRated.collection.drop().catch(err => console.log('TopRated collection not found'));
+    mongoose.connection.collection('toprateds').drop()
+    // await Upcoming.collection.drop().catch(err => console.log('Upcoming collection not found'));
+    mongoose.connection.collection('upcomings').drop()
 
-    await User.create(users);
-    await Movie.create(movies);
-    await Actor.create(actors);
-    await Genre.create(genres);
-    await NowPlaying.create(nowplaying);
-    await TopRated.create(toprated);
-    await Upcoming.create(upcoming);
+    // await User.create(users);
+    // await Movie.create(movies);
+    // await Actor.create(actors);
+    // await Genre.create(genres);
+    // await NowPlaying.create(nowplaying);
+    // await TopRated.create(toprated);
+    // await Upcoming.create(upcoming);
 
     console.log('Database initialised');
 

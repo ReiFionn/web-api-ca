@@ -21,15 +21,15 @@ const formControl =
   };
 
 export default function FilterActorsCard(props) {
-  const {  data, error, isLoading, isError }  = useQuery(['actors', 1], getActors(1));
+  // const {  data, error, isLoading, isError }  = useQuery(['actors', 1], getActors(1));
 
-  if (isLoading) {
-    return <Spinner />;
-  }
+  // if (isLoading) {
+  //   return <Spinner />;
+  // }
 
-  if (isError) {
-    return <h1>{error.message}</h1>;
-  }
+  // if (isError) {
+  //   return <h1>{error.message}</h1>;
+  // }
 
   const handleChange = (e, type, value) => {
     e.preventDefault();

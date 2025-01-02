@@ -9,7 +9,7 @@ import { Pagination } from "@mui/material";
 
 const NowPlayingMoviesPage = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const {  data, error, isLoading, isError, refetch }  =   useQuery(['now_playing', {page: currentPage}], () => getNowPlayingMovies({queryKey: ['now_playing', {page: currentPage}]}));
+  const {  data, error, isLoading, isError, refetch }  = useQuery(['now_playing', {page: currentPage}], () => getNowPlayingMovies({queryKey: ['now_playing', {page: currentPage}]}));
 
   if (isLoading) {
     return <Spinner />

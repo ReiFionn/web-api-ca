@@ -39,25 +39,29 @@ router.get('/:id', asyncHandler(async (req, res) => {
 
 // Get movie images
 router.get('/:id/images', asyncHandler(async (req, res) => {
-    const images = await getMovieImages();
+    const id = parseInt(req.params.id);
+    const images = await getMovieImages({queryKey: [null, {id}]});
     res.status(200).json(images);
 }));
 
 // Get movie reviews
 router.get('/:id/reviews', asyncHandler(async (req, res) => {
-    const reviews = await getMovieReviews();
+    const id = parseInt(req.params.id);
+    const reviews = await getMovieReviews({ queryKey: [null, { id }] });
     res.status(200).json(reviews);
 }));
 
 // Get movie cast
 router.get('/:id/cast', asyncHandler(async (req, res) => {
-    const cast = await getMovieCast();
+    const id = parseInt(req.params.id);
+    const cast = await getMovieCast({ queryKey: [null, { id }] });
     res.status(200).json(cast);
 }));
 
 // Get movie certifications
 router.get('/:id/certifications', asyncHandler(async (req, res) => {
-    const certifications = await getCertifications();
+    const id = parseInt(req.params.id);
+    const certifications = await getCertifications({ queryKey: [null, { id }] });
     res.status(200).json(certifications);
 }));
 

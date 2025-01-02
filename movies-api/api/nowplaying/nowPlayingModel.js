@@ -3,14 +3,6 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const NowPlayingSchema = new Schema({
-  dates: {
-    maximum: { type: String },
-    minimum: { type: String }
-  },
-  page: { type: Number },
-  total_pages: { type: Number },
-  total_results: { type: Number },
-  results: [{
     adult: { type: Boolean },
     id: { type: Number, required: true, unique: true },
     poster_path: { type: String },
@@ -36,7 +28,6 @@ const NowPlayingSchema = new Schema({
     }],
     status: { type: String },
     tagline: { type: String }
-  }]
 });
 
 

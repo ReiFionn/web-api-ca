@@ -1,7 +1,7 @@
 import nowPlayingModel from './nowPlayingModel';
 import asyncHandler from 'express-async-handler';
 import express from 'express';
-import {getNowPlayingMovies, getMovieImages, getMovieReviews, getMovieCast, getCertifications} from '../../tmdb-api';  
+import {getNowPlayingMovies, getMovieImages, getMovieReviews, getMovieCast, getCertifications} from '../tmdb-api';  
 
 const router = express.Router();
 
