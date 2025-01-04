@@ -7,9 +7,6 @@ import defaultErrHandler from './errHandler'
 import moviesRouter from './api/movies';
 import actorRouter from './api/actors';
 import genreRouter from './api/genres';
-import topRatedRouter from './api/toprated';
-import upcomingRouter from './api/upcoming';
-import nowPlayingRouter from './api/nowplaying';
 import authenticate from './authenticate';
 
 dotenv.config();
@@ -25,9 +22,6 @@ app.use('/api/users', usersRouter);
 app.use('/api/movies', moviesRouter);
 app.use('/api/actors', actorRouter);
 app.use('/api/genres', genreRouter);
-app.use('/api/upcoming', upcomingRouter);
-app.use('/api/toprated', topRatedRouter);
-app.use('/api/nowplaying', nowPlayingRouter);
 
 app.use(defaultErrHandler);
 

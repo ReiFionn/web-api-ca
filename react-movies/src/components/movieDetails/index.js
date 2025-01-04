@@ -6,6 +6,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import MonetizationIcon from "@mui/icons-material/MonetizationOn";
 import StarRate from "@mui/icons-material/StarRate";
 import NavigationIcon from "@mui/icons-material/Navigation";
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import Fab from "@mui/material/Fab";
 import Typography from "@mui/material/Typography";
 import Drawer from "@mui/material/Drawer";
@@ -13,6 +14,7 @@ import MovieReviews from "../movieReviews";
 import AddToFavoritesActors from "../cardIcons/addToFavoriteActors";
 import Grid from "@mui/material/Grid";
 import ActorCard from "../actorCard"
+import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
 
 const root = {
     display: "flex",
@@ -71,9 +73,10 @@ const MovieDetails = ({ movie }) => {  // Don't miss this!
         />
         <Chip
           icon={<StarRate />}
-          label={`${movie.vote_average.toFixed(1)} (${movie.vote_count}`}
+          label={`${movie.vote_average.toFixed(1)} (${movie.vote_count})`}
         />
-        <Chip label={`Released: ${movie.release_date}`} />
+        <Chip icon={<CalendarIcon />} label={`${movie.release_date}`} />
+        <Chip icon={<WorkspacePremiumIcon />} label={`${movie.certification}`} />
       </Paper>
       <Paper 
         component="ul" 

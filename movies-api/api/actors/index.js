@@ -1,8 +1,9 @@
 import actorModel from './actorModel';
 import asyncHandler from 'express-async-handler';
 import express from 'express';
-import {getActorImages, getActorRoles} from '../tmdb-api';  
+import {getActor, getActors} from '../tmdb-api';  
 import imagesRouter from './images'
+import rolesRouter from './roles'
 
 const router = express.Router();
 
@@ -10,41 +11,29 @@ router.get('/', asyncHandler(async (req, res) => {
     let { page = 1, limit = 10 } = req.query; // destructure page and limit and set default values
     [page, limit] = [+page, +limit]; //trick to convert to numeric (req.query will contain string values)
 
-    // Parallel execution of counting movies and getting movies using actorModel
-    const [total_results, results] = await Promise.all([
-        actorModel.estimatedDocumentCount(),
-        actorModel.find().limit(limit).skip((page - 1) * limit)
-    ]);
-    const total_pages = Math.ceil(total_results / limit); //Calculate total number of pages (= total No Docs/Number of docs per page) 
-
-    //construct return Object and insert into response object
-    const returnObject = {
-        page,
-        total_pages,
-        total_results,
-        results
-    };
-    res.status(200).json(returnObject);
+    try {
+        const actors = await getActors(page);
+        res.status(200).json(actors);
+    } catch (error) {
+        console.error('Error fetching actors:', error);
+        res.status(500).json({ error: 'Failed to fetch actors' });
+    }
 }));
 
 // Get actor details
 router.get('/:id', asyncHandler(async (req, res) => {
-    const id = parseInt(req.params.id);
-    const actor = await actorModel.findByActorDBId(id);
-    if (actor) {
-        res.status(200).json(actor);
-    } else {
-        res.status(404).json({message: 'The actor you requested could not be found.', status_code: 404});
+    try {
+        const id = parseInt(req.params.id);
+        const actor = await getActor(id);
+        if (actor) 
+            res.status(200).json(actor);
+    } catch (error) {
+        console.error('Error fetching movie actors:', error);
+        res.status(500).json({ error: 'Failed to fetch movie actors' });
     }
 }));
 
 router.use('/images', imagesRouter)
-
-// Get actor roles
-router.get('/:id/roles', asyncHandler(async (req, res) => {
-    const id = parseInt(req.params.id);
-    const roles = await getActorRoles({ queryKey: [null, { id }] });
-    res.status(200).json(roles);
-}));
+router.use('/roles', rolesRouter)
 
 export default router;

@@ -1,39 +1,5 @@
 import fetch from 'node-fetch';
 
-// export const getUpcomingMovies = async () => {
-//     try {
-//         const response = await fetch(
-//             `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.TMDB_KEY}&language=en-US&page=1`
-//         );
-
-//         if (!response.ok) {
-//             throw new Error(response.json().message);
-//         }
-
-//         return await response.json();
-//     } catch (error) {
-//         throw error;
-//     }
-// };
-
-// export const getGenres = async () => {
-//     try {
-//         const response = await fetch(
-//             `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.TMDB_KEY}&language=en-US`
-//         );
-
-//         if (!response.ok) {
-//             throw new Error(response.json().message);
-//         }
-
-//         return await response.json();
-//     } catch (error) {
-//         throw error;
-//     }
-// };
-
-////////////////
-
 export const getMovies = async (page = 1) => {
     try {
       const response = await fetch(
@@ -44,15 +10,6 @@ export const getMovies = async (page = 1) => {
         throw new Error(await response.json().message);
       }
       const movieData = await response.json();
-  
-      // for (const movie of movieData.results) {
-      //   try {
-      //     const movieDetails = await getMovie({ queryKey: ["movie", { id: movie.id }] });
-      //     movie.certification = movieDetails.certification || "Not Rated"; //appends certification to each movie in movieData
-      //   } catch (error) {
-      //     movie.certification = "Error"; //troubleshooting
-      //   }
-      // }
   
       return movieData;
     } catch (error) {
@@ -70,15 +27,6 @@ export const getMovies = async (page = 1) => {
       }
       const movieData = await response.json();
   
-      // for (const movie of movieData.results) {
-      //   try {
-      //     const movieDetails = await getMovie({ queryKey: ["movie", { id: movie.id }] });
-      //     movie.certification = movieDetails.certification || "Not Rated"; //appends certification to each movie in movieData
-      //   } catch (error) {
-      //     movie.certification = "Error"; //troubleshooting
-      //   }
-      // }
-  
       return movieData;
     } catch (error) {
       throw error;
@@ -95,15 +43,6 @@ export const getMovies = async (page = 1) => {
       }
       const movieData = await response.json();
   
-      // for (const movie of movieData.results) {
-      //   try {
-      //     const movieDetails = await getMovie({ queryKey: ["movie", { id: movie.id }] });
-      //     movie.certification = movieDetails.certification || "Not Rated"; //appends certification to each movie in movieData
-      //   } catch (error) {
-      //     movie.certification = "Error"; //troubleshooting
-      //   }
-      // }
-  
       return movieData;
     } catch (error) {
       throw error;
@@ -119,16 +58,7 @@ export const getMovies = async (page = 1) => {
         throw new Error(await response.json().message);
       }
       const movieData = await response.json();
-  
-      // for (const movie of movieData.results) {
-      //   try {
-      //     const movieDetails = await getMovie({ queryKey: ["movie", { id: movie.id }] });
-      //     movie.certification = movieDetails.certification || "Not Rated"; //appends certification to each movie in movieData
-      //   } catch (error) {
-      //     movie.certification = "Error"; //troubleshooting
-      //   }
-      // }
-  
+      
       return movieData;
     } catch (error) {
       throw error;
@@ -225,9 +155,8 @@ export const getMovies = async (page = 1) => {
     });
   };
   
-  export const getActor = (args) => {
-    const [, idPart] = args.queryKey;
-    const { id } = idPart;
+  export const getActor = async (id) => {
+
     return fetch(
       `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.TMDB_KEY}&language=en-US`
     ).then((response) => {
@@ -241,20 +170,19 @@ export const getMovies = async (page = 1) => {
     });
   };
   
-  export const getActorImages = (id) => {
+  export const getActorImages = async (id) => {
 
-    return fetch(
-      `https://api.themoviedb.org/3/person/${id}/images?api_key=${process.env.TMDB_KEY}`
-    ).then( (response) => {
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/person/${id}/images?api_key=${process.env.TMDB_KEY}`
+      );
       if (!response.ok) {
         throw new Error(response.json().message);
       }
-      return response.json();
-  
-    })
-    .catch((error) => {
-      throw error
-    });
+      return await response.json();
+    } catch (error) {
+      throw error;
+    }
   };
   
   //https://blog.risingstack.com/node-js-async-best-practices-avoiding-callback-hell-node-js-at-scale/

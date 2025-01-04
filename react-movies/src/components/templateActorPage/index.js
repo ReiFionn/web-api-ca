@@ -20,7 +20,10 @@ const TemplateActorPage = ({ actor, children }) => {
   if (isError) {
     return <h1>{error.message}</h1>;
   }
-  const images = data.profiles 
+
+  console.log("Actor Images Data:", data);
+
+  const images = data.profiles;
 
   return (
     <>

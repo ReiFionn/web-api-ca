@@ -366,12 +366,10 @@ export const getMovieImages = async ({queryKey}) => {
   return response.json();
 }
 
-export const getMovieReviews = async ({queryKey}) => {
-  const [, idPart] = queryKey;
-  const { id } = idPart;
+export const getMovieReviews = async (id) => {
 
   const response = await fetch(
-    `http://localhost:8080/api/movies/${id}/reviews` ,{
+    `http://localhost:8080/api/movies/reviews/${id}` ,{
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -408,12 +406,12 @@ export const getActor = async ({queryKey}) => {
   return response.json();
 }
 
-export const getActorImages = async ({queryKey}) => {
-  const [, idPart] = queryKey;
+export const getActorImages = async (args) => {
+  const [, idPart] = args.queryKey;
   const { id } = idPart;
 
   const response = await fetch(
-    `http://localhost:8080/api/actors/${id}/images` ,{
+    `http://localhost:8080/api/actors/images/${id}` ,{
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -439,12 +437,10 @@ export const getActorImages = async ({queryKey}) => {
 //   });
 // };
 
-export const getActorRoles = async ({queryKey}) => {
-  const [, idPart] = queryKey;
-  const { id } = idPart;
+export const getActorRoles = async (id) => {
 
   const response = await fetch(
-    `http://localhost:8080/api/actors/${id}/roles` ,{
+    `http://localhost:8080/api/actors/roles/${id}` ,{
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -470,7 +466,7 @@ export const getMovieCertifications = async ({queryKey}) => {
   const { id } = idPart;
 
   const response = await fetch(
-    `http://localhost:8080/api/movies/${id}/certifications` ,{
+    `http://localhost:8080/api/movies/certifications/${id}` ,{
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }

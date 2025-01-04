@@ -4,7 +4,7 @@ import { getActorImages } from '../../tmdb-api';
   
 const router = express.Router();
 
-// Get movie images
+// Get actor images
 router.get('/:id', asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id, 10);
 
