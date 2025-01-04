@@ -1,0 +1,14 @@
+import mongoose from 'mongoose';
+
+const Schema = mongoose.Schema;
+
+const FavoriteActorSchema = new Schema({
+  username: { type: String },
+  actor_ids: [{ type: Number }],
+});
+
+FavoriteActorSchema.statics.findByUsername = function (username) {
+    return this.findOne({ username: username });
+};
+
+export default mongoose.model('FavoriteActorModel', FavoriteActorSchema);
