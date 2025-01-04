@@ -288,7 +288,7 @@ export const getUpcomingMovies = async ({queryKey}) => {
   const { page } = pagePart;
 
   const response = await fetch(
-    `http://localhost:8080/api/upcoming?page=${page}`, {
+    `http://localhost:8080/api/movies/upcoming?page=${page}`, {
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -302,7 +302,7 @@ export const getNowPlayingMovies = async ({queryKey}) => {
   const { page } = pagePart;
 
   const response = await fetch(
-    `http://localhost:8080/api/nowplaying?page=${page}`, {
+    `http://localhost:8080/api/movies/nowplaying?page=${page}`, {
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -317,7 +317,7 @@ export const getTopRatedMovies = async ({queryKey}) => {
   const { page } = pagePart;
 
   const response = await fetch(
-    `http://localhost:8080/api/toprated?page=${page}`, {
+    `http://localhost:8080/api/movies/toprated?page=${page}`, {
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -420,23 +420,6 @@ export const getActorImages = async (args) => {
   return response.json();
 }
 
-// export const getActorImages = ({ queryKey }) => {
-//   const [, idPart] = queryKey;
-//   const { id } = idPart;
-//   return fetch(
-//     `https://api.themoviedb.org/3/person/${id}/images?api_key=${process.env.REACT_APP_TMDB_KEY}`
-//   ).then( (response) => {
-//     if (!response.ok) {
-//       throw new Error(response.json().message);
-//     }
-//     return response.json();
-
-//   })
-//   .catch((error) => {
-//     throw error
-//   });
-// };
-
 export const getActorRoles = async (id) => {
 
   const response = await fetch(
@@ -461,30 +444,30 @@ export const getMovieCast = async (id) => {
   return response.json();
 }
 
-export const getMovieCertifications = async ({queryKey}) => {
-  const [, idPart] = queryKey;
-  const { id } = idPart;
+// export const getMovieCertifications = async ({queryKey}) => {
+//   const [, idPart] = queryKey;
+//   const { id } = idPart;
 
-  const response = await fetch(
-    `http://localhost:8080/api/movies/certifications/${id}` ,{
-    headers: {
-      'Authorization': window.localStorage.getItem('token')
-    }
-    }
-  )
-  return response.json();
-}
+//   const response = await fetch(
+//     `http://localhost:8080/api/movies/certifications/${id}` ,{
+//     headers: {
+//       'Authorization': window.localStorage.getItem('token')
+//     }
+//     }
+//   )
+//   return response.json();
+// }
 
-export const getCertifications = async () => {
-  const response = await fetch(
-    `http://localhost:8080/api/certifications` ,{
-    headers: {
-      'Authorization': window.localStorage.getItem('token')
-    }
-    }
-  )
-  return response.json();
-};
+// export const getCertifications = async () => {
+//   const response = await fetch(
+//     `http://localhost:8080/api/certifications` ,{
+//     headers: {
+//       'Authorization': window.localStorage.getItem('token')
+//     }
+//     }
+//   )
+//   return response.json();
+// };
 
 export const login = async (username, password) => {
   const response = await fetch('http://localhost:8080/api/users', {
@@ -494,6 +477,11 @@ export const login = async (username, password) => {
       method: 'post',
       body: JSON.stringify({ username: username, password: password })
   });
+
+  if (!response.ok) {
+    throw new Error('Failed to authenticate');
+  }
+
   return response.json();
 };
 

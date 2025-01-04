@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Navigate, useLocation, Link } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../contexts/authContext';
 import { TextField, Button, Container, Typography, Box, Grid } from '@mui/material';
 
@@ -8,9 +8,10 @@ const SignInPage = () => {
 
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const login = () => {
-      context.authenticate(userName, password);
+    context.authenticate(userName, password);
   };
 
   let location = useLocation();
@@ -22,70 +23,23 @@ const SignInPage = () => {
       return <Navigate to={from} />;
   }
 
-  // return (
-  //   <Container component="main" maxWidth="xs">
-  //     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 8 }}>
-  //       <Typography variant="h5" sx={{ marginBottom: 2 }}>
-  //         Sign In
-  //       </Typography>
-  //       <form onSubmit={handleSignIn} noValidate>
-  //         <TextField
-  //           variant="outlined"
-  //           margin="normal"
-  //           required
-  //           fullWidth
-  //           label="Email Address"
-  //           value={email}
-  //           onChange={(e) => setEmail(e.target.value)}
-  //           autoFocus
-  //         />
-  //         <TextField
-  //           variant="outlined"
-  //           margin="normal"
-  //           required
-  //           fullWidth
-  //           label="Password"
-  //           type="password"
-  //           value={password}
-  //           onChange={(e) => setPassword(e.target.value)}
-  //         />
-  //         <Button
-  //           type="submit"
-  //           fullWidth
-  //           variant="contained"
-  //           color="primary"
-  //           sx={{ marginTop: 2 }}
-  //         >
-  //           Sign In
-  //         </Button>
-  //         <Grid container>
-  //           <Grid item>
-  //             <Button onClick={() => navigate('/signup')} sx={{ marginTop: 2 }}>
-  //               Don't have an account? Sign Up
-  //             </Button>
-  //           </Grid>
-  //         </Grid>
-  //       </form>
-  //     </Box>
-  //   </Container>
-  // );
-
   return (
-    <>
-        <h2>Login page</h2>
-        <p>You must log in to view the protected pages </p>
-        <input id="username" placeholder="user name" onChange={e => {
-            setUserName(e.target.value);
-        }}></input><br />
-        <input id="password" type="password" placeholder="password" onChange={e => {
-            setPassword(e.target.value);
-        }}></input><br />
-        {/* Login web form  */}
-        <button onClick={login}>Log in</button>
-        <p>Not Registered?
-            <Link to="/signup">Sign Up!</Link></p>
-    </>
-);
+    <Container component="main" maxWidth="xs">
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 8 }}>
+        <Typography variant="h5" sx={{ marginBottom: 2 }}>Sign In</Typography>
+        <p>You must log in to view the protected pages</p>
+        <TextField variant="outlined" margin="normal" required fullWidth label="User Name" value={userName} onChange={(e) => setUserName(e.target.value)} autoFocus/>
+        <TextField variant="outlined" margin="normal" required fullWidth label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+        <Button onClick={login} fullWidth variant="contained" color="primary" sx={{ marginTop: 2 }}>Log In</Button>
+        <Grid container>
+          <Grid item>
+            <Button onClick={() => navigate('/signup')} sx={{ marginTop: 2 }}>Don't have an account? Sign Up</Button>
+          </Grid>
+        </Grid>
+      </Box>
+    </Container>
+  );
+  
 };
 export default SignInPage;
 

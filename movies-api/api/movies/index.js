@@ -3,7 +3,7 @@ import castRouter from './cast'
 import reviewsRouter from './reviews';
 import asyncHandler from 'express-async-handler';
 import express from 'express';
-import {getMovies, getMovie} from '../tmdb-api';  
+import {getMovies, getMovie, getUpcomingMovies, getTopRatedMovies, getNowPlayingMovies} from '../tmdb-api';  
 
 const router = express.Router();
 
@@ -17,6 +17,45 @@ router.get('/', asyncHandler(async (req, res) => {
     } catch (error) {
         console.error('Error fetching movies:', error);
         res.status(500).json({ error: 'Failed to fetch movies' });
+    }
+}));
+
+router.get('/upcoming', asyncHandler(async (req, res) => {
+    let { page = 1 } = req.query; // destructure page and limit and set default values
+    [page] = [+page]; //trick to convert to numeric (req.query will contain string values)
+
+    try {
+        const movies = await getUpcomingMovies(page);
+        res.status(200).json(movies);
+    } catch (error) {
+        console.error('Error fetching upcoming movies:', error);
+        res.status(500).json({ error: 'Failed to fetch upcoming movies' });
+    }
+}));
+
+router.get('/toprated', asyncHandler(async (req, res) => {
+    let { page = 1 } = req.query; // destructure page and limit and set default values
+    [page] = [+page]; //trick to convert to numeric (req.query will contain string values)
+
+    try {
+        const movies = await getTopRatedMovies(page);
+        res.status(200).json(movies);
+    } catch (error) {
+        console.error('Error fetching top rated movies:', error);
+        res.status(500).json({ error: 'Failed to fetch top rated movies' });
+    }
+}));
+
+router.get('/nowplaying', asyncHandler(async (req, res) => {
+    let { page = 1 } = req.query; // destructure page and limit and set default values
+    [page] = [+page]; //trick to convert to numeric (req.query will contain string values)
+
+    try {
+        const movies = await getNowPlayingMovies(page);
+        res.status(200).json(movies);
+    } catch (error) {
+        console.error('Error fetching now playing movies:', error);
+        res.status(500).json({ error: 'Failed to fetch now playing movies' });
     }
 }));
 
