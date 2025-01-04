@@ -9,7 +9,7 @@ import { Pagination } from "@mui/material";
 
 const HomePage = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const {  data, error, isLoading, isError, refetch }  = useQuery(['discover', {page: currentPage}], () => getMovies({queryKey: ['discover', {page: currentPage}]}));
+  const {  data, error, isLoading, isError }  = useQuery(['discover', {page: currentPage}], getMovies);
 
   if (isLoading) {
     return <Spinner />
@@ -19,11 +19,12 @@ const HomePage = (props) => {
     return <h1>{error.message}</h1>
   } 
 
-  const movies = data.results 
+  const movies = data.results;
+  const totalPages = data.total_pages;
+
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
-    refetch();
   };
 
   // Redundant, but necessary to avoid app crashing.
@@ -43,7 +44,7 @@ const HomePage = (props) => {
         </>
       }}
     />
-    <Pagination style={{ marginTop: '25px', display: 'flex', justifyContent: 'center' }} count={500} color="secondary" onChange={handlePageChange} page={currentPage} size="large"/>
+    <Pagination style={{ marginTop: '25px', display: 'flex', justifyContent: 'center' }} count={totalPages} color="secondary" onChange={handlePageChange} page={currentPage} size="large"/>
     </>
 );
 };

@@ -9,7 +9,7 @@ import { Pagination } from "@mui/material";
 
 const TopRatedMoviesPage = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const {  data, error, isLoading, isError, refetch }  = useQuery(['top_rated', {page: currentPage}], () => getTopRatedMovies({queryKey: ['top_rated', {page: currentPage}]}));
+  const {  data, error, isLoading, isError, refetch }  = useQuery(['top_rated', {page: currentPage}], getTopRatedMovies);
 
   if (isLoading) {
     return <Spinner />
@@ -25,6 +25,7 @@ const TopRatedMoviesPage = (props) => {
   };
 
   const movies = data.results
+  const totalPages = data.total_pages;
 
   // Redundant, but necessary to avoid app crashing.
   const mustWatch = movies.filter(m => m.mustWatch)
@@ -43,7 +44,7 @@ const TopRatedMoviesPage = (props) => {
         </>
       }}
     />
-    <Pagination style={{ marginTop: '25px', display: 'flex', justifyContent: 'center' }} count={500} color="secondary" onChange={handlePageChange} page={currentPage} size="large"/>
+    <Pagination style={{ marginTop: '25px', display: 'flex', justifyContent: 'center' }} count={totalPages} color="secondary" onChange={handlePageChange} page={currentPage} size="large"/>
     </>
 );
 };

@@ -9,7 +9,7 @@ import { Pagination } from "@mui/material";
 
 const NowPlayingMoviesPage = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const {  data, error, isLoading, isError, refetch }  = useQuery(['now_playing', {page: currentPage}], () => getNowPlayingMovies({queryKey: ['now_playing', {page: currentPage}]}));
+  const {  data, error, isLoading, isError, refetch }  = useQuery(['now_playing', {page: currentPage}], getNowPlayingMovies);
 
   if (isLoading) {
     return <Spinner />
@@ -20,6 +20,7 @@ const NowPlayingMoviesPage = (props) => {
   }  
 
   const movies = data.results;
+  const totalPages = data.total_pages;
   
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
@@ -43,7 +44,7 @@ const NowPlayingMoviesPage = (props) => {
         </>
       }}
     />
-    <Pagination style={{ marginTop: '25px', display: 'flex', justifyContent: 'center' }} count={500} color="secondary" onChange={handlePageChange} page={currentPage} size="large"/>
+    <Pagination style={{ marginTop: '25px', display: 'flex', justifyContent: 'center' }} count={totalPages} color="secondary" onChange={handlePageChange} page={currentPage} size="large"/>
     </>
 );
 };

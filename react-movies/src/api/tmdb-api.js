@@ -268,26 +268,24 @@
 //   });
 // };
 
-export const getMovies = async (args) => {
-  const [, idPart] = args.queryKey;
-  const { page } = idPart;
+export const getMovies = async ({queryKey}) => {
+  const [, pagePart] = queryKey;
+  const { page } = pagePart;
 
   const response = await fetch(
     `http://localhost:8080/api/movies?page=${page}`, {
-    headers: {
-      'Authorization': window.localStorage.getItem('token')
+      headers: {
+        'Authorization': window.localStorage.getItem('token')
+      }
     }
-  }
   )
-
-  console.log('Raw Response:', response);
   
   return response.json();
 };
 
-export const getUpcomingMovies = async (args) => {
-  const [, idPart] = args.queryKey;
-  const { page } = idPart;
+export const getUpcomingMovies = async ({queryKey}) => {
+  const [, pagePart] = queryKey;
+  const { page } = pagePart;
 
   const response = await fetch(
     `http://localhost:8080/api/upcoming?page=${page}`, {
@@ -299,9 +297,9 @@ export const getUpcomingMovies = async (args) => {
   return response.json();
 }
 
-export const getNowPlayingMovies = async (args) => {
-  const [, idPart] = args.queryKey;
-  const { page } = idPart;
+export const getNowPlayingMovies = async ({queryKey}) => {
+  const [, pagePart] = queryKey;
+  const { page } = pagePart;
 
   const response = await fetch(
     `http://localhost:8080/api/nowplaying?page=${page}`, {
@@ -314,9 +312,9 @@ export const getNowPlayingMovies = async (args) => {
   return response.json();
 }
 
-export const getTopRatedMovies = async (args) => {
-  const [, idPart] = args.queryKey;
-  const { page } = idPart;
+export const getTopRatedMovies = async ({queryKey}) => {
+  const [, pagePart] = queryKey;
+  const { page } = pagePart;
 
   const response = await fetch(
     `http://localhost:8080/api/toprated?page=${page}`, {
@@ -354,12 +352,12 @@ export const getGenres = async (args) => {
   return await response.json();
 }
 
-export const getMovieImages = async (args) => {
-  const [, idPart] = args.queryKey;
+export const getMovieImages = async ({queryKey}) => {
+  const [, idPart] = queryKey;
   const { id } = idPart;
 
   const response = await fetch(
-    `http://localhost:8080/api/movies/${id}/images` ,{
+    `http://localhost:8080/api/movies/images/${id}` ,{
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -368,8 +366,8 @@ export const getMovieImages = async (args) => {
   return response.json();
 }
 
-export const getMovieReviews = async (args) => {
-  const [, idPart] = args.queryKey;
+export const getMovieReviews = async ({queryKey}) => {
+  const [, idPart] = queryKey;
   const { id } = idPart;
 
   const response = await fetch(
@@ -382,9 +380,9 @@ export const getMovieReviews = async (args) => {
   return response.json();
 }
 
-export const getActors = async (args) => {
-  const [, idPart] = args.queryKey;
-  const { page } = idPart;
+export const getActors = async ({queryKey}) => {
+  const [, pagePart] = queryKey;
+  const { page } = pagePart;
 
   const response = await fetch(
     `http://localhost:8080/api/actors?page=${page}` ,{
@@ -396,8 +394,8 @@ export const getActors = async (args) => {
   return response.json();
 }
 
-export const getActor = async (args) => {
-  const [, idPart] = args.queryKey;
+export const getActor = async ({queryKey}) => {
+  const [, idPart] = queryKey;
   const { id } = idPart;
 
   const response = await fetch(
@@ -410,8 +408,8 @@ export const getActor = async (args) => {
   return response.json();
 }
 
-export const getActorImages = async (args) => {
-  const [, idPart] = args.queryKey;
+export const getActorImages = async ({queryKey}) => {
+  const [, idPart] = queryKey;
   const { id } = idPart;
 
   const response = await fetch(
@@ -441,8 +439,8 @@ export const getActorImages = async (args) => {
 //   });
 // };
 
-export const getActorRoles = async (args) => {
-  const [, idPart] = args.queryKey;
+export const getActorRoles = async ({queryKey}) => {
+  const [, idPart] = queryKey;
   const { id } = idPart;
 
   const response = await fetch(
@@ -455,12 +453,10 @@ export const getActorRoles = async (args) => {
   return response.json();
 }
 
-export const getMovieCast = async (args) => {
-  const [, idPart] = args.queryKey;
-  const { id } = idPart;
+export const getMovieCast = async (id) => {
 
   const response = await fetch(
-    `http://localhost:8080/api/movies/${id}/cast` ,{
+    `http://localhost:8080/api/movies/cast/${id}` ,{
     headers: {
       'Authorization': window.localStorage.getItem('token')
     }
@@ -469,8 +465,8 @@ export const getMovieCast = async (args) => {
   return response.json();
 }
 
-export const getMovieCertifications = async (args) => {
-  const [, idPart] = args.queryKey;
+export const getMovieCertifications = async ({queryKey}) => {
+  const [, idPart] = queryKey;
   const { id } = idPart;
 
   const response = await fetch(

@@ -2,6 +2,7 @@ import actorModel from './actorModel';
 import asyncHandler from 'express-async-handler';
 import express from 'express';
 import {getActorImages, getActorRoles} from '../tmdb-api';  
+import imagesRouter from './images'
 
 const router = express.Router();
 
@@ -37,12 +38,7 @@ router.get('/:id', asyncHandler(async (req, res) => {
     }
 }));
 
-// Get actor images
-router.get('/:id/images', asyncHandler(async (req, res) => {
-    const id = parseInt(req.params.id);
-    const images = await getActorImages({ queryKey: [null, { id }] });
-    res.status(200).json(images);
-}));
+router.use('/images', imagesRouter)
 
 // Get actor roles
 router.get('/:id/roles', asyncHandler(async (req, res) => {

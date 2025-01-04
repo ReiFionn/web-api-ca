@@ -25,6 +25,7 @@ const ActorsPage = (props) => {
   };
 
   const actors = data.results
+  const totalPages = data.total_pages;
 
   // Redundant, but necessary to avoid app crashing.
   const favoriteActors = actors.filter(a => a.favorite)
@@ -40,7 +41,7 @@ const ActorsPage = (props) => {
           return <AddToFavoriteActorsIcon actor={actor} />
         }}
       />
-      <Pagination style={{ marginTop: '25px', display: 'flex', justifyContent: 'center' }} count={500} color="secondary" onChange={handlePageChange} page={currentPage} size="large"/>
+      <Pagination style={{ marginTop: '25px', display: 'flex', justifyContent: 'center' }} count={totalPages} color="secondary" onChange={handlePageChange} page={currentPage} size="large"/>
     </>
   );
 };
