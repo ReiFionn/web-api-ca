@@ -8,6 +8,7 @@ import moviesRouter from './api/movies';
 import actorRouter from './api/actors';
 import genreRouter from './api/genres';
 import favouritesRouter from './api/favourites'
+import mustWatchRouter from './api/mustwatch'
 import authenticate from './authenticate';
 
 dotenv.config();
@@ -21,7 +22,8 @@ app.use('/api/users', usersRouter);
 app.use('/api/movies', authenticate, moviesRouter);
 app.use('/api/actors', authenticate, actorRouter);
 app.use('/api/genres', authenticate, genreRouter);
-app.use('api/favourites', authenticate, favouritesRouter);
+app.use('/api/favourites', authenticate, favouritesRouter);
+app.use('/api/mustwatch', authenticate, mustWatchRouter);
 app.use(defaultErrHandler);
 
 app.listen(port, () => {

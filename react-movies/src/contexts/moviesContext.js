@@ -49,6 +49,10 @@ const MoviesContextProvider = (props) => {
   };
   //console.log(myReviews);
 
+  const addToFavoriteMoviesFromAtlas = (ids) => {
+    setFavorites(ids)
+  }
+
   return (
     <MoviesContext.Provider
       value={{
@@ -59,6 +63,7 @@ const MoviesContextProvider = (props) => {
         removeFromFavorites,
         removeFromMustWatch,
         addReview,
+        addToFavoriteMoviesFromAtlas
       }}
     >
       {props.children}

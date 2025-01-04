@@ -11,4 +11,4 @@ FavoriteActorSchema.statics.findByUsername = function (username) {
     return this.findOne({ username: username });
 };
 
-export default mongoose.model('FavoriteActorModel', FavoriteActorSchema);
+export default mongoose.model('FavoriteActor', FavoriteActorSchema);

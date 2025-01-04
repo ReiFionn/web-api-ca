@@ -1,15 +1,15 @@
 import asyncHandler from 'express-async-handler';
 import express from 'express';
-import favouriteActorsModel from './favouriteActorsModel';
+import FavoriteActor from './favouriteActorsModel';
   
 const router = express.Router();
 
 // Get favourite actors
 router.get('/:id', asyncHandler(async (req, res) => {
-    const id = parseInt(req.params.id, 10);
+    const id = req.params.id;
 
     try {
-        const favourites = await favouriteActorsModel.findByUsername();
+        const favourites = await FavoriteActor.findByUsername(id);
         if (favourites) {
             res.status(200).json(favourites);
         } else {

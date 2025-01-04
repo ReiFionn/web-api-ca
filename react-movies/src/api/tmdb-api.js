@@ -495,3 +495,33 @@ export const signup = async (username, password) => {
   });
   return response.json();
 };
+
+export const getFavouriteActors = async (username) => {
+  const response = await fetch(`http://localhost:8080/api/favourites/actors/${username}`,{ 
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
+      }
+    }
+  );
+  return response.json();
+}
+
+export const getFavouriteMovies = async (username) => {
+  const response = await fetch(`http://localhost:8080/api/favourites/movies/${username}`,{ 
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
+      }
+    }
+  );
+  return response.json();
+}
+
+export const getMustWatchMovies = async (username) => {
+  const response = await fetch(`http://localhost:8080/api/favourites/mustwatch/${username}`,{ 
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
+      }
+    }
+  );
+  return response.json();
+}

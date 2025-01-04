@@ -2,13 +2,13 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const FavoriteMovieSchema = new Schema({
+const MustWatchMovieSchema = new Schema({
   username: { type: String },
   movie_ids: [{ type: Number }],
 });
 
-FavoriteMovieSchema.statics.findByUsername = function (username) {
+MustWatchMovieSchema.statics.findByUsername = function (username) {
     return this.findOne({ username: username });
 };
 
-export default mongoose.model('FavouriteMovie', FavoriteMovieSchema);
+export default mongoose.model('MustWatchMovie', MustWatchMovieSchema);

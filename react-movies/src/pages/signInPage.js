@@ -1,17 +1,28 @@
 import React, { useContext, useState } from 'react';
 import { Navigate, useLocation, useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../contexts/authContext';
+import { ActorsContext } from '../contexts/actorsContext'
+import { MoviesContext} from '../contexts/moviesContext' 
 import { TextField, Button, Container, Typography, Box, Grid } from '@mui/material';
+import { getFavouriteActors, getFavouriteMovies } from '../api/tmdb-api';
 
 const SignInPage = () => {
   const context = useContext(AuthContext);
+  const actorsContext = useContext(ActorsContext)
+  const moviesContext = useContext(MoviesContext)
 
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const login = () => {
+  const login = async () => {
     context.authenticate(userName, password);
+    const actors = await getFavouriteActors(userName)
+    const movies = await getFavouriteMovies(userName)
+    const actorIds = actors.actor_ids;
+    const movieIds = movies.movie_ids
+    actorsContext.addToFavoriteActorsFromAtlas(actorIds);
+    moviesContext.addToFavoriteMoviesFromAtlas(movieIds)
   };
 
   let location = useLocation();

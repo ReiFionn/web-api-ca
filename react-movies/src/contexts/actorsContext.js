@@ -23,12 +23,17 @@ const ActorsContextProvider = (props) => {
     ) )
   };
 
+  const addToFavoriteActorsFromAtlas = (ids) => {
+      setFavoriteActors(ids)
+  }
+
   return (
     <ActorsContext.Provider
       value={{
         favoriteActors,
         addToFavoriteActors,
         removeFromFavoriteActors,
+        addToFavoriteActorsFromAtlas
       }}
     >
       {props.children}
