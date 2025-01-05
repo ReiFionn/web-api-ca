@@ -16,19 +16,36 @@ const SignInPage = () => {
   const navigate = useNavigate();
 
   const login = async () => {
-    context.authenticate(userName, password);
-    const actors = await getFavouriteActors(userName)
-    console.log(userName + 's favourite actors: ' + actors)
-    const movies = await getFavouriteMovies(userName)
-    console.log(userName + 's favourite movies: ' + movies)
-    const mustWatch = await getMustWatchMovies(userName)
-    console.log(userName + 's must watch movies: ' + mustWatch)
-    const actorIds = actors.actor_ids;
-    const movieIds = movies.movie_ids
-    const mustWatchIds = mustWatch.movie_ids
-    actorsContext.addToFavoriteActorsFromAtlas(actorIds);
-    moviesContext.addToFavoriteMoviesFromAtlas(movieIds)
-    moviesContext.addToMustWatchFromAtlas(mustWatchIds)
+    try {
+      await context.authenticate(userName, password);
+    } catch (error) {
+      alert(error.message);  
+      return;
+    }
+  
+    try {
+      const actors = await getFavouriteActors(userName)
+      const actorIds = actors.actor_ids;
+      actorsContext.addToFavoriteActorsFromAtlas(actorIds);
+    } catch (error) {
+      console.error("Error getting favourite actors: ", error);
+    }
+    
+    try {
+      const movies = await getFavouriteMovies(userName)
+      const movieIds = movies.movie_ids
+      moviesContext.addToFavoriteMoviesFromAtlas(movieIds)
+    } catch (error) {
+      console.error("Error getting favourite movies: ", error);
+    }
+    
+    try {
+      const mustWatch = await getMustWatchMovies(userName)
+      const mustWatchIds = mustWatch.movie_ids
+      moviesContext.addToMustWatchFromAtlas(mustWatchIds)
+    } catch (error) {
+      console.error("Error getting must watch movies: ", error);
+    }
   };
 
   let location = useLocation();

@@ -479,7 +479,8 @@ export const login = async (username, password) => {
   });
 
   if (!response.ok) {
-    throw new Error('Failed to authenticate');
+    const errorData = await response.json().catch(() => ({ msg: 'Failed to authenticate' }));
+    throw new Error(errorData.msg || 'Failed to authenticate');
   }
 
   return response.json();

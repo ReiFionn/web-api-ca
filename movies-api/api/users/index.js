@@ -43,23 +43,31 @@ router.put('/:id', async (req, res) => {
 });
 
 async function registerUser(req, res) {
-    // Add input validation logic here
-    await User.create(req.body);
-    res.status(201).json({ success: true, msg: 'User successfully created.' });
+    const {username, password} = req.body;
+
+    const isUnique = await User.isUserUnique(username);
+    console.log("isUnique" + isUnique)
+
+    if (isUnique) {
+        await User.create(req.body);
+        res.status(201).json({ success: true, msg: 'User successfully created.' });
+    } else {
+        return res.status(400).json({ success: false, msg: 'Username is already taken.' });
+    }
 }
 
 async function authenticateUser(req, res) {
-    const user = await User.findByUserName(req.body.username);
+    const user = await User.findByUserName(req.body.username)
     if (!user) {
-        return res.status(401).json({ success: false, msg: 'Authentication failed. User not found.' });
+        return res.status(401).json({ success: false, msg: 'Authentication failed: User not found.' })
     }
 
     const isMatch = await user.comparePassword(req.body.password);
     if (isMatch) {
-        const token = jwt.sign({ username: user.username }, process.env.SECRET);
-        res.status(200).json({ success: true, token: 'BEARER ' + token });
+        const token = jwt.sign({ username: user.username }, process.env.SECRET)
+        res.status(200).json({ success: true, token: 'BEARER ' + token })
     } else {
-        res.status(401).json({ success: false, msg: 'Wrong password.' });
+        res.status(401).json({ success: false, msg: 'Authentication failed: Wrong password.' })
     }
 }
 
