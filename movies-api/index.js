@@ -21,7 +21,7 @@ app.use(express.json());
 app.use('/api/users', usersRouter);
 app.use('/api/movies', moviesRouter);
 app.use('/api/actors', authenticate, actorRouter);
-app.use('/api/genres', authenticate, genreRouter);
+app.use('/api/genres', genreRouter);
 app.use('/api/favourites', authenticate, favouritesRouter);
 app.use('/api/mustwatch', authenticate, mustWatchRouter);
 app.use(defaultErrHandler);

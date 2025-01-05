@@ -3,33 +3,33 @@ import React, { useState } from "react";
 export const MoviesContext = React.createContext(null);
 
 const MoviesContextProvider = (props) => {
-  const [favorites, setFavorites] = useState( [] )
-  const [mustWatch, setMustWatch] = useState( [] )
-  const [myReviews, setMyReviews] = useState( {} ) 
+  const [favorites, setFavorites] = useState( [] );
+  const [mustWatch, setMustWatch] = useState( [] );
+  const [myReviews, setMyReviews] = useState( {} );
+
+  const addToMustWatchFromAtlas = (ids) => {
+    setMustWatch(ids)
+  }
 
   const addToFavorites = (movie) => {
     let newFavorites = [];
     if (!favorites.includes(movie.id)){
       newFavorites = [...favorites, movie.id];
-    }
-    else{
+    } else {
       newFavorites = [...favorites];
     }
     setFavorites(newFavorites)
   };
-  console.log(favorites)
 
   const addToMustWatch = (movie) => {
     let newMustWatch = [];
     if (!mustWatch.includes(movie.id)) {
       newMustWatch = [...mustWatch, movie.id];
-    }
-    else {
+    } else {
       newMustWatch = [...mustWatch];
     }
     setMustWatch(newMustWatch)
   };
-  console.log(mustWatch)
   
   // We will use this function in the next step
   const removeFromFavorites = (movie) => {
@@ -53,22 +53,18 @@ const MoviesContextProvider = (props) => {
     setFavorites(ids)
   }
 
-  const addToMustWatchFromAtlas = (ids) => {
-    setMustWatch(ids)
-  }
-
   return (
     <MoviesContext.Provider
       value={{
         favorites,
         mustWatch,
+        addToMustWatchFromAtlas,
         addToFavorites,
         addToMustWatch,
         removeFromFavorites,
         removeFromMustWatch,
         addReview,
-        addToFavoriteMoviesFromAtlas,
-        addToMustWatchFromAtlas
+        addToFavoriteMoviesFromAtlas
       }}
     >
       {props.children}

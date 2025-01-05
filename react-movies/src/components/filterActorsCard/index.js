@@ -74,7 +74,7 @@ export default function FilterActorsCard(props) {
           onChange={handleSliderChange}
           valueLabelDisplay="auto"
           min={0}
-          max={300}
+          max={400}
         />
       </CardContent>
       <CardMedia

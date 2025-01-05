@@ -18,29 +18,30 @@ import { MoviesContext } from "../../contexts/moviesContext";
 import SportsMartialArtsIcon from '@mui/icons-material/SportsMartialArts';
 
 export default function MovieCard({ movie, action, role }) {
-  const { favorites, addToFavorites } = useContext(MoviesContext);
-  const { mustWatch, addToMustWatch} = useContext(MoviesContext);
+  const moviesContext = useContext(MoviesContext)
+  const favorites = moviesContext.favorites;
+  const mustWatch = moviesContext.mustWatch;
 
-  if (favorites.find((id) => id === movie.id)) {
-    movie.favorite = true;
-  } else {
-    movie.favorite = false
-  }
+    if (favorites.find((id) => id === movie.id)) {
+      movie.favorite = true;
+    } else {
+      movie.favorite = false
+    }
 
-  if (mustWatch.find((id) => id === movie.id)) {
-    movie.mustWatch = true;
-  } else {
-    movie.mustWatch = false
-  }
+    if (mustWatch.find((id) => id === movie.id)) {
+      movie.mustWatch = true;
+    } else {
+      movie.mustWatch = false
+    }
 
   const handleAddToFavorite = (e) => {
     e.preventDefault();
-    addToFavorites(movie);
+    moviesContext.addToFavorites(movie);
   };
 
   const handleAddToMustWatch = (e) => {
     e.preventDefault();
-    addToMustWatch(movie);
+    moviesContext.addToMustWatch(movie);
   };
   
   return (

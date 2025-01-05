@@ -21,6 +21,11 @@ UserSchema.statics.findByUserName = function (username) {
   return this.findOne({ username: username });
 };
 
+UserSchema.statics.isUserUnique = async function (username) {
+  const user = await this.findOne({ username: username })
+  return !!user
+};
+
 UserSchema.pre('save', async function(next) {
   const saltRounds = 10; // You can adjust the number of salt rounds
   //const user = this;

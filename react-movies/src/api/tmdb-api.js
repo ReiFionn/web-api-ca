@@ -494,6 +494,16 @@ export const signup = async (username, password) => {
       method: 'post',
       body: JSON.stringify({ username: username, password: password })
   });
+
+  if (response.status === 400) {
+    const errorData = await response.json();
+    return { success: false, msg: errorData.msg || 'Duplicate username.' };
+  }
+
+  if (!response.ok) {
+    return { success: false, msg: 'An error occurred.' };
+  }
+
   return response.json();
 };
 
@@ -504,6 +514,7 @@ export const getFavouriteActors = async (username) => {
       }
     }
   );
+
   return response.json();
 }
 
@@ -514,6 +525,7 @@ export const getFavouriteMovies = async (username) => {
       }
     }
   );
+
   return response.json();
 }
 
@@ -524,6 +536,7 @@ export const getMustWatchMovies = async (username) => {
       }
     }
   );
+  
   return response.json();
 }
 

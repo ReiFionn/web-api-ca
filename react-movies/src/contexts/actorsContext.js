@@ -15,7 +15,6 @@ const ActorsContextProvider = (props) => {
     }
     setFavoriteActors(newFavoriteActors)
   };
-  console.log(favoriteActors)
   
   const removeFromFavoriteActors = (actor) => {
     setFavoriteActors( favoriteActors.filter(

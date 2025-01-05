@@ -43,16 +43,20 @@ router.put('/:id', async (req, res) => {
 });
 
 async function registerUser(req, res) {
-    const {username, password} = req.body;
-
+    const { username, password } = req.body;
     const isUnique = await User.isUserUnique(username);
-    console.log("isUnique" + isUnique)
 
     if (isUnique) {
-        await User.create(req.body);
-        res.status(201).json({ success: true, msg: 'User successfully created.' });
-    } else {
         return res.status(400).json({ success: false, msg: 'Username is already taken.' });
+    }
+
+    try {
+        const newUser = new User({ username, password });
+        await newUser.save();
+        res.status(201).json({ success: true, msg: 'User successfully created.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, msg: 'Error creating user.' });
     }
 }
 

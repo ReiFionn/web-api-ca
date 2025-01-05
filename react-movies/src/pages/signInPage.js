@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/authContext';
 import { ActorsContext } from '../contexts/actorsContext'
@@ -15,17 +15,19 @@ const SignInPage = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   moviesContext.addToFavoriteMoviesFromAtlas([]);
+  //   moviesContext.addToMustWatchFromAtlas([]); 
+  //   actorsContext.addToFavoriteActorsFromAtlas([]);
+    
+  // }, [moviesContext, actorsContext]);
+
   const login = async () => {
-    try {
-      await context.authenticate(userName, password);
-    } catch (error) {
-      alert(error.message);  
-      return;
-    }
+    await context.authenticate(userName, password);
   
     try {
       const actors = await getFavouriteActors(userName)
-      const actorIds = actors.actor_ids;
+      const actorIds = actors.actor_ids ? actors.actor_ids : [];
       actorsContext.addToFavoriteActorsFromAtlas(actorIds);
     } catch (error) {
       console.error("Error getting favourite actors: ", error);
@@ -33,7 +35,7 @@ const SignInPage = () => {
     
     try {
       const movies = await getFavouriteMovies(userName)
-      const movieIds = movies.movie_ids
+      const movieIds = movies.movie_ids ? movies.movie_ids : [];
       moviesContext.addToFavoriteMoviesFromAtlas(movieIds)
     } catch (error) {
       console.error("Error getting favourite movies: ", error);
@@ -41,7 +43,7 @@ const SignInPage = () => {
     
     try {
       const mustWatch = await getMustWatchMovies(userName)
-      const mustWatchIds = mustWatch.movie_ids
+      const mustWatchIds = mustWatch.movie_ids ? mustWatch.movie_ids : [];
       moviesContext.addToMustWatchFromAtlas(mustWatchIds)
     } catch (error) {
       console.error("Error getting must watch movies: ", error);
