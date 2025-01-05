@@ -99,9 +99,7 @@ export const getMovies = async (page = 1) => {
   
   export const getGenres = async () => {
     return fetch(
-      "https://api.themoviedb.org/3/genre/movie/list?api_key=" +
-        process.env.TMDB_KEY +
-        "&language=en-US"
+      `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.TMDB_KEY}&language=en-US`
     ).then( (response) => {
       console.log(response)
       if (!response.ok) {

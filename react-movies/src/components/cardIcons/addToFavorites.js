@@ -1,14 +1,24 @@
 import React, { useContext } from "react";
 import { MoviesContext } from "../../contexts/moviesContext";
+import { AuthContext } from "../../contexts/authContext";
+import { updateFavouriteMovies } from "../../api/tmdb-api";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const AddToFavoritesIcon = ({ movie }) => {
   const context = useContext(MoviesContext);
+  const authContext = useContext(AuthContext)
 
-  const handleAddToFavorites = (e) => {
+  const handleAddToFavorites = async (e) => {
     e.preventDefault();
-    context.addToFavorites(movie);
+    try {
+      const updatedFavorites = [...context.favorites, movie.id];
+      context.addToFavorites(movie);
+      const response = await updateFavouriteMovies(authContext.userName, updatedFavorites);
+      console.log(response);
+    } catch (error) {
+      console.error("Error updating favorite movies:", error);
+    }
   };
 
   return (

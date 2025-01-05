@@ -4,7 +4,7 @@ import asyncHandler from 'express-async-handler';
 
 const router = express.Router(); // eslint-disable-line
 
-router.get('/mustwatch', async (req, res) => {
+router.get('/', async (req, res) => {
     const movies = await MustWatchMovie.find();
     res.status(200).json(movies);
 });
@@ -24,6 +24,14 @@ router.get('/:id', asyncHandler(async (req, res) => {
         console.error('Error fetching must watch movies:', error.message);
         res.status(500).json({ error: 'Failed to fetch must watch movies' });
     }
+}));
+
+//add or remove from must watch
+router.put('/:id', asyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const { movie_ids } = req.body;
+    const updatedMustWatchMovies = await MustWatchMovie.findOneAndUpdate({username: id}, {movie_ids}, {new: true, upsert: true});
+    res.status(200).json(updatedMustWatchMovies);
 }));
 
 export default router;

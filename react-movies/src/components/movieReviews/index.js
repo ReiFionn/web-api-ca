@@ -6,9 +6,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Link } from "react-router-dom";
 import { getMovieReviews } from "../../api/tmdb-api";
 import { excerpt } from "../../util";
+import { Link } from 'react-router-dom';
 
 export default function MovieReviews({ movie }) {
   const [reviews, setReviews] = useState([]);
@@ -18,7 +18,7 @@ export default function MovieReviews({ movie }) {
       setReviews(reviews);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
   return (
     <TableContainer component={Paper}>

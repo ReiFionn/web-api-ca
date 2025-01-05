@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { Navigate, useLocation, useNavigate, Link } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/authContext';
 import { ActorsContext } from '../contexts/actorsContext'
-import { MoviesContext} from '../contexts/moviesContext' 
+import { MoviesContext} from '../contexts/moviesContext'
 import { TextField, Button, Container, Typography, Box, Grid } from '@mui/material';
-import { getFavouriteActors, getFavouriteMovies } from '../api/tmdb-api';
+import { getFavouriteActors, getFavouriteMovies, getMustWatchMovies } from '../api/tmdb-api';
 
 const SignInPage = () => {
   const context = useContext(AuthContext);
@@ -18,11 +18,17 @@ const SignInPage = () => {
   const login = async () => {
     context.authenticate(userName, password);
     const actors = await getFavouriteActors(userName)
+    console.log(userName + 's favourite actors: ' + actors)
     const movies = await getFavouriteMovies(userName)
+    console.log(userName + 's favourite movies: ' + movies)
+    const mustWatch = await getMustWatchMovies(userName)
+    console.log(userName + 's must watch movies: ' + mustWatch)
     const actorIds = actors.actor_ids;
     const movieIds = movies.movie_ids
+    const mustWatchIds = mustWatch.movie_ids
     actorsContext.addToFavoriteActorsFromAtlas(actorIds);
     moviesContext.addToFavoriteMoviesFromAtlas(movieIds)
+    moviesContext.addToMustWatchFromAtlas(mustWatchIds)
   };
 
   let location = useLocation();

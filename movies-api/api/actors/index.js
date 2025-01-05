@@ -1,4 +1,3 @@
-import actorModel from './actorModel';
 import asyncHandler from 'express-async-handler';
 import express from 'express';
 import {getActor, getActors} from '../tmdb-api';  

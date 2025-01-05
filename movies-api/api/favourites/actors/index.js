@@ -21,4 +21,12 @@ router.get('/:id', asyncHandler(async (req, res) => {
     }
 }));
 
+//add or remove from favourites
+router.put('/:id', asyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const { actor_ids } = req.body;
+    const updatedActors = await FavoriteActor.findOneAndUpdate({username: id}, {actor_ids}, {new: true, upsert: true});
+    res.status(200).json(updatedActors);
+}));
+
 export default router;

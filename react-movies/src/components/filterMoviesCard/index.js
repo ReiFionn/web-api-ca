@@ -32,12 +32,14 @@ export default function FilterMoviesCard(props) {
     return <Spinner />;
   }
 
+  const genres = genreData.genres;
+
   if (genreIsError) {
     return <h1>{(genreError).message}</h1>;
   }
 
-  if (genreData[0].name !== "All"){
-    genreData.unshift({ id: "0", name: "All" });
+  if (genres[0].name !== "All"){
+    genres.unshift({ id: "0", name: "All" });
   }
 
   const handleTextChange = (e) => {
@@ -86,7 +88,7 @@ export default function FilterMoviesCard(props) {
             value={props.genreFilter}
             onChange={handleGenreChange}
           >
-            {genreData.map((genre) => {
+            {genres.map((genre) => {
               return (
                 <MenuItem key={genre.id} value={genre.id}>
                   {genre.name}
